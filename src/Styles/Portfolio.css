@@ -1,0 +1,56 @@
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Three columns */
+  gap: 1rem; /* Space between items */
+  margin-left: 191px;
+  margin-right: 258px;
+  margin-top: 62px;
+  padding: 2rem 2rem 4rem 2rem;
+  background: linear-gradient(180deg, #424255 0%, rgba(45, 45, 62, 0) 100%);
+  border-radius: 8px;
+}
+
+.portfolio-item {
+  padding: 1rem;
+  border-radius: 0.5rem; /* Rounded corners for each item */
+  display: flex;
+  flex-direction: row; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  text-align: center; /* Center text */
+}
+
+.item-symbol {
+  /* Styles for the crypto symbol/icon */
+  margin-bottom: 0.5rem; /* Space below the symbol/icon */
+  margin-right: 20px;
+}
+
+.item-details{
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-size: 1rem; /* Large font size for visibility */
+  color: #ffffff; /* White color for the name */
+  margin-bottom: 0.5rem; /* Space below the name */
+}
+
+.item-amount {
+  font-size: 1rem;
+  font-weight: bold; /* Bold for the amount */
+  color: #ffffff; /* White color for the amount */
+}
+
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr); /* Two columns on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr; /* One column on very small screens */
+  }
+}
