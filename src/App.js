@@ -3,6 +3,7 @@ import Portfolio from "./Components/Portfolio";
 import Transactions from "./Components/Transactions";
 import Followers from "./Components/Followers";
 import Following from "./Components/Following";
+import CommonPOAP from "./Components/CommonPOAP";
 import Swap from "./Components/Swap";
 import HomeIcon from "./Images/Home-sign.png";
 import SwapIcon from "./Images/Swap-sign.png";
@@ -49,6 +50,8 @@ const App = () => {
         return <Followers searchTerm={searchTerm} />;
       case "Following":
         return <Following searchTerm={searchTerm} />;
+      case "Common POAP":
+        return <CommonPOAP searchTerm={searchTerm} />;
       default:
         return <Portfolio searchTerm={searchTerm} />;
     }
@@ -203,6 +206,11 @@ const NavigationMenu = ({ setActiveComponent , isWalletConnected}) => {
         <li>
           <button className="nav-button" onClick={() => setActiveComponent("Following")}>
             Following
+          </button>
+        </li>
+        <li>
+          <button className="nav-button" onClick={() => setActiveComponent("Common POAP")}>
+            Common POAP's
           </button>
         </li>
         <li>
