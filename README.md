@@ -25,7 +25,7 @@ These features foster a community-experience that is conducive for beginners and
 
 ## Built With
 
-* 1inch Fusion Swap API
-* Airstack API's
+* 1inch Fusion Swap API : Used to provide token swaps at the best rates using limit orders with variable exchange rates.
+* Airstack API's : used to query a whole range of data related to a particular wallet address / on-chain identity (lens , xmtp , farcaster).
 * React JS
 * Hardhat Framework
