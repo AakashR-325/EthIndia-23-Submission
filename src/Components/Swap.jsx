@@ -90,6 +90,12 @@ const Swap = ({isWalletConnected}) => {
           <DownOutlined />
         </div>
       </div>
+      < div className = "Quote-details">
+        <div className='Quote-detail'>token Fee:</div>
+        <div className='Quote-detail'>Auction End Time:</div>
+        <div className='Quote-detail'>to token amount:</div>
+        <div className='Quote-detail'>Settlement Address:</div>
+      </div>
       <div className="swapButton" /*onClick={fetchDexSwap}*/ disabled={!tokenOneAmount || isWalletConnected === "Connect Wallet"}>
         { isWalletConnected === "Connect Wallet" ? <p>Please Connect Wallet ! </p>: <p>Swap</p> }
       </div>

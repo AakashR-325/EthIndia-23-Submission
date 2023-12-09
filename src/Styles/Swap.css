@@ -123,6 +123,18 @@
   margin-left: 5px;
 }
 
+.Quote-details  {
+  border: 1px solid #0E111B;
+  margin: 5px auto 5px auto;
+  width: 400px;
+  border-radius: 10px;
+}
+
+.Quote-detail{
+  margin-top: 10px;
+  padding: 5px;
+}
+
 .swapButton {
   display: flex;
   justify-content: center;
