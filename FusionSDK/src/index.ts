@@ -5,14 +5,23 @@ import {Quote} from "@1inch/fusion-sdk/api";
 import Web3 from "web3";
 import {PresetEnum} from "@1inch/fusion-sdk/api";
 import { ethers } from "ethers";
+require('dotenv').config();
 
- const pk = '';
-  const network = NetworkEnum.POLYGON;
-const authKey = '';  // wAfNeT6H3HJbpGzxwy9Jb8OEzPlDMx3q
- const ethNetworkRPC =  ''; // use polygon
+
+ const pk = "f4ded818e12218c2f26d30b171b560a378d8126c6e7440f9658e854e60eace6d";
+  const network = NetworkEnum.ETHEREUM;
+const authKey = "wAfNeT6H3HJbpGzxwy9Jb8OEzPlDMx3q" ; 
+ const ethNetworkRPC =  'https://eth.llamarpc.com';
     // https://rpc.ankr.com/polygon/150aa8fab13e61e50ba49ac1cd0c06e26ae190e4c907691044886fdda314bfb6
-const   userAddress  = "";  //0x676F5DB4407f16FF97e0a0F20694FC9665b9b7cF
+const   userAddress  = "0x676F5DB4407f16FF97e0a0F20694FC9665b9b7cF";  //0x676F5DB4407f16FF97e0a0F20694FC9665b9b7cF
 const web3 = new Web3(new Web3.providers.HttpProvider(ethNetworkRPC));
+
+
+
+var tokenFee: string = "";
+var auctionEndAmount: string = "";
+var toTokenAmount: string = "";
+var settlementAddress: string = "";
 
 
 // console.log(signer);
@@ -33,9 +42,9 @@ const blockchainProvider = new PrivateKeyProviderConnector(
 
 // console.log(sdk);
  
-   const  fromTokenAddress= ''; //0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
-   const  toTokenAddress= ''; // 0x6B175474E89094C44Da98b954EedeAC495271d0F
-   const  amount= ''; //1000000000000000000
+   const  fromTokenAddress= '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'; //0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
+   const  toTokenAddress= '0x6B175474E89094C44Da98b954EedeAC495271d0F'; // 0x6B175474E89094C44Da98b954EedeAC495271d0F
+   const  amount= '1000000000000000000'; //1000000000000000000
 
 const params  = {
 
@@ -83,22 +92,50 @@ async function gettingQuoates(){
 try{
     const quote = await sdk.getQuote(params) // this fetchjing quotes
     console.log("=============================================");
-    console.log(quote);
-    await sleep(1000);
+    // console.log(quote);
+    // await sleep(1000);
+
+    const tokenFee: string = quote.presets.fast.tokenFee;
+    console.log("=============================================");
+console.log(tokenFee);
+
+    console.log("=============================================");
+
+const auctionEndAmount: string = quote.presets.fast.auctionEndAmount;
+
+    console.log("=============================================");
+console.log(auctionEndAmount);
+
+    console.log("=============================================");
+
+const toTokenAmount: string = quote.toTokenAmount;
+    console.log("=============================================");
+console.log(toTokenAmount);
+
+    console.log("=============================================");
+
+const settlementAddress: string = quote.settlementAddress;
+
+console.log("=============================================");
+console.log(settlementAddress);
+
+    console.log("=============================================");
 
     const finalAmount = quote.toTokenAmount ;
+    console.log("=============================================");
+console.log(finalAmount);
     console.log("=============================================");
 
     console.log("Calling Create Transaction Function");
 
-  await createOrder(sdk,
-        fromTokenAddress,
-        toTokenAddress,
-        amount,
-        // getAddressFromPrivateKey(pk),
-       userAddress ,
-        PresetEnum.fast);
-        await sleep(1000);
+//   await createOrder(sdk,
+//         fromTokenAddress,
+//         toTokenAddress,
+//         amount,
+//         // getAddressFromPrivateKey(pk),
+//        userAddress ,
+//         PresetEnum.fast);
+        // await sleep(1000);
 
 console.log("==========================================================");
         console.log('Finished with Fusion Order...')
@@ -110,6 +147,20 @@ catch(e){
 } 
 
     }
+
+    // async function gettingQuoates(){
+    //     try{
+    //         const quote = await sdk.getQuote(params) // this fetchjing quotes
+    //         console.log("=============================================");
+    //         console.log(quote);
+    //         console.log("=============================================");
+    //     }
+    //     catch(e){
+    //         console.log(e);
+    //     } 
+        
+    //         }
+
 
 async function allInOne(){
 
@@ -182,5 +233,6 @@ const defaultAccount: string = '' ; //0x1FE78EAdDa7f4B421bAfBC70E049B91462cC8C0A
 }
 
     gettingQuoates();
-    allInOne();
+    // allInOne();
 
+    export { tokenFee, auctionEndAmount, toTokenAmount,settlementAddress};
