@@ -8,9 +8,9 @@ import { ethers } from "ethers";
 require('dotenv').config();
 
 
- const pk = "f4ded818e12218c2f26d30b171b560a378d8126c6e7440f9658e854e60eace6d";
+ const pk = "";
   const network = NetworkEnum.ETHEREUM;
-const authKey = "wAfNeT6H3HJbpGzxwy9Jb8OEzPlDMx3q" ; 
+const authKey = "" ; 
  const ethNetworkRPC =  'https://eth.llamarpc.com';
     // https://rpc.ankr.com/polygon/150aa8fab13e61e50ba49ac1cd0c06e26ae190e4c907691044886fdda314bfb6
 const   userAddress  = "0x676F5DB4407f16FF97e0a0F20694FC9665b9b7cF";  //0x676F5DB4407f16FF97e0a0F20694FC9665b9b7cF
@@ -128,14 +128,14 @@ console.log(finalAmount);
 
     console.log("Calling Create Transaction Function");
 
-//   await createOrder(sdk,
-//         fromTokenAddress,
-//         toTokenAddress,
-//         amount,
-//         // getAddressFromPrivateKey(pk),
-//        userAddress ,
-//         PresetEnum.fast);
-        // await sleep(1000);
+  await createOrder(sdk,
+        fromTokenAddress,
+        toTokenAddress,
+        amount,
+        // getAddressFromPrivateKey(pk),
+       userAddress ,
+        PresetEnum.fast);
+        await sleep(1000);
 
 console.log("==========================================================");
         console.log('Finished with Fusion Order...')
@@ -233,6 +233,6 @@ const defaultAccount: string = '' ; //0x1FE78EAdDa7f4B421bAfBC70E049B91462cC8C0A
 }
 
     gettingQuoates();
-    // allInOne();
+    allInOne();
 
     export { tokenFee, auctionEndAmount, toTokenAmount,settlementAddress};
