@@ -1,59 +1,42 @@
-import React from "react";
-import "../Styles/Transactions.css"; // Make sure to create a corresponding CSS file for styling
+import React, { useState, useEffect } from "react";
+import "../Styles/Transactions.css";
 import Bitcoin from "../Images/Bitcoin-logo.png";
 import Ethereum from "../Images/Eth-logo.png";
 import Solana from "../Images/Solana-logo.png";
 import Tether from "../Images/Tether-logo.png";
+import Polygon from "../Images/matic.png";
 
-const Transactions = () => {
-  const transactionData = [
-    {
-      id: 1,
-      name: "Bitcoin",
-      balance: "$2,340.32",
-      address: "0xd88Ba...6025",
-      timestamp: new Date(new Date().getTime() - 45 * 60000),
-    },
-    {
-      id: 2,
-      name: "Ethereum",
-      balance: "$5,340.32",
-      address: "0xd88Ba...6025",
-      timestamp: new Date(new Date().getTime() - 90 * 60000),
-    },
-    {
-      id: 3,
-      name: "Solana",
-      balance: "$2,340.32",
-      address: "0xd88Ba...6025",
-      timestamp: new Date(new Date().getTime() - 30 * 60000),
-    },
-    {
-      id: 4,
-      name: "Bitcoin",
-      balance: "$2,340.32",
-      address: "0xd88Ba...6025",
-      timestamp: new Date(new Date().getTime() - 45 * 60000),
-    },
-    {
-      id: 5,
-      name: "Ethereum",
-      balance: "$5,340.32",
-      address: "0xd88Ba...6025",
-      timestamp: new Date(new Date().getTime() - 90 * 60000),
-    },
-    {
-      id: 6,
-      name: "Solana",
-      balance: "$2,340.32",
-      address: "0xd88Ba...6025",
-      timestamp: new Date(new Date().getTime() - 30 * 60000),
-    },
-  ];
+const Transactions = ({ searchTerm }) => {
+  const [transactions, setTransactions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Only fetch if searchTerm is 'vitalik.eth'
+    if (searchTerm === "vitalik.eth") {
+      setIsLoading(true);
+      fetch(
+        `http://localhost:3001/transactions?identity=${encodeURIComponent(
+          searchTerm
+        )}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setTransactions(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching transactions:", error);
+          setIsLoading(false);
+        });
+    } else {
+      // Clear transactions if searchTerm is not 'vitalik.eth'
+      setTransactions([]);
+    }
+  }, [searchTerm]);
 
   const timeSince = (timestamp) => {
     const now = new Date();
-    const elapsed = now - timestamp;
+    const elapsed = now - new Date(timestamp);
 
     const minutes = Math.floor(elapsed / 60000);
     const hours = Math.floor(minutes / 60);
@@ -68,6 +51,25 @@ const Transactions = () => {
     }
   };
 
+  const getImage = (name) => {
+    switch (name) {
+      case "Bitcoin":
+        return Bitcoin;
+      case "Ethereum":
+        return Ethereum;
+      case "Polygon":
+        return Polygon;
+      case "Tether":
+        return Tether;
+      default:
+        return null; // Or a default image
+    }
+  };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="outer">
       <div className="transactions-table">
@@ -75,26 +77,26 @@ const Transactions = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Balance</th>
-              <th>Address</th>
+              <th>From Address</th>
+              <th>To Address</th>
               <th>Time</th>
             </tr>
           </thead>
           <tbody>
-            {transactionData.map((transaction) => (
-              <tr key={transaction.id}>
+            {transactions.map((transaction, index) => (
+              <tr key={index}>
                 <td>
-                  <div className="transaction.name-symbol">
-                    {transaction.name === "Bitcoin" && <img src={Bitcoin} alt="Bitcoin" />}
-                    {transaction.name === "Ethereum" && <img src={Ethereum} alt="Ethereum" />}
-                    {transaction.name === "Solana" && <img src={Solana} alt="Solana" />}
-                    {transaction.name === "Tether" && <img  src={Tether} alt="Tether" />}
+                  <div className="transaction-name-symbol">
+                    <img
+                      src={getImage(transaction.name)}
+                      alt={transaction.name}
+                    />
                   </div>
                   {transaction.name}
                 </td>
-                <td>{transaction.balance}</td>
-                <td>{transaction.address}</td>
-                <td className="timestamp">{timeSince(transaction.timestamp)}</td>
+                <td>{transaction.fromAddress}</td>
+                <td>{transaction.toAddress}</td>
+                <td className="timestamp">{transaction.timestamp}</td>
               </tr>
             ))}
           </tbody>

@@ -1,65 +1,73 @@
-import React from "react";
-import "../Styles/Following.css"; // Make sure to create and import your stylesheet
-import Follower from "../Images/Follower-logo.png";
+import React, { useState, useEffect } from "react";
+import "../Styles/Following.css";
+import FollowerLogo from "../Images/Follower-logo.png";
 
-const Following = () => {
-  // This would be populated with actual data in a real application
-  const dummyFollowing = [
-    {
-      id: 1,
-      name: "User Name",
-      handle: "@username1",
-      followers: "1.3K",
-      following: "1.2K",
-    },
-    {
-      id: 2,
-      name: "User Name",
-      handle: "@username2",
-      followers: "1.1K",
-      following: "1.1K",
-    },
-    {
-      id: 3,
-      name: "User Name",
-      handle: "@username3",
-      followers: "2.2K",
-      following: "1.7K",
-    },
-    {
-      id: 4,
-      name: "User Name",
-      handle: "@username4",
-      followers: "1.8K",
-      following: "1.5K",
-    },
-    {
-      id: 5,
-      name: "User Name",
-      handle: "@username5",
-      followers: "2.5K",
-      following: "2.2K",
-    },
+const Following = ({ searchTerm }) => {
+  const [followingData, setFollowingData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Start as false since we may not fetch
+  const [error, setError] = useState(null);
 
-    // ... other following
-  ];
+  useEffect(() => {
+    // Only fetch if searchTerm is 'vitalik.eth'
+    if (searchTerm === "vitalik.eth") {
+      setIsLoading(true); // Indicate loading
+      fetch(
+        `http://localhost:3001/following?identity=${encodeURIComponent(
+          searchTerm
+        )}`
+      ) // Pass searchTerm to backend
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setFollowingData(data.SocialFollowings.Following);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setError(error);
+          setIsLoading(false);
+        });
+    } else {
+      // If searchTerm is not 'vitalik.eth', clear any existing data
+      setFollowingData([]);
+    }
+  }, [searchTerm]); // Re-run when searchTerm changes
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  // Only render following data if available
   return (
     <div className="following-container">
-      {dummyFollowing.map((follow) => (
-        <div key={follow.id} className="following-item">
-          <img className="user-logo" src={Follower}/>
-          <div className="following-info">
-            <span className="following-name">{follow.name}</span>
-            <span className="following-handle">{follow.handle}</span>
+      {followingData.length > 0 ? (
+        followingData.map((follow, index) => (
+          <div key={index} className="following-item">
+            <img className="user-logo" src={FollowerLogo} alt="Following" />
+            <div className="following-info">
+              <span className="following-name">
+                {follow.followingAddress.socials[0]?.profileName || "Unknown"}
+              </span>
+              <span className="following-handle">
+                {follow.followingAddress.addresses.join(", ")}
+              </span>
+            </div>
+            <div className="following-stats">
+              {/* Additional stats if needed */}
+            </div>
+            <button className="unfollow-button">Unfollow</button>
           </div>
-          <div className="following-stats">
-            <span className="followers"><span className="bold-number">{follow.followers}</span> Followers</span>
-            <span className="following"><span className="bold-number">{follow.following}</span> Following</span>
-          </div>
-          <button className="unfollow-button">Unfollow</button>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p>No following information to display.</p>
+      )}
     </div>
   );
 };
